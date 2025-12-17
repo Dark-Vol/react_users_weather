@@ -1,0 +1,185 @@
+@use '../variables' as *;
+
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  @include transition(transform, box-shadow);
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    @include card-hover;
+
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+.cardContent {
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.userInfo {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  @include transition(transform, box-shadow);
+  border: 3px solid transparent;
+  
+  .card:hover & {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: $primary-blue;
+  }
+}
+
+.userDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: $foreground;
+  word-wrap: break-word;
+  @include transition(color);
+  
+  .card:hover & {
+    color: $primary-blue;
+  }
+}
+
+.gender {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  margin: 0 0 0.25rem 0;
+  text-transform: capitalize;
+}
+
+.location {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  margin: 0 0 0.25rem 0;
+}
+
+.email {
+  font-size: 0.875rem;
+  color: $primary-blue;
+  margin: 0;
+  word-break: break-all;
+  @include transition(color);
+  
+  .card:hover & {
+    color: $primary-blue-hover;
+  }
+}
+
+.weatherInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding-left: 1rem;
+  border-left: 1px solid $border-color;
+}
+
+.weatherIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+  @include transition(transform);
+  display: inline-block;
+  
+  .card:hover & {
+    animation: rotate 2s linear infinite;
+  }
+}
+
+.temperature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.currentTemp {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $foreground;
+  @include transition(transform);
+  
+  .card:hover & {
+    transform: scale(1.1);
+  }
+}
+
+.tempRange {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: $text-secondary;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .cardContent {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .userInfo {
+    width: 100%;
+  }
+
+  .weatherInfo {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 0;
+    padding-top: 1rem;
+    border-left: none;
+    border-top: 1px solid $border-color;
+  }
+
+  .name {
+    font-size: 1.125rem;
+  }
+}
+
+

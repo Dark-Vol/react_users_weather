@@ -1,0 +1,351 @@
+@use '../../variables' as *;
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: $background;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.backButton {
+  background: $white;
+  border: 1px solid $border-color;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  @include transition(background, box-shadow, transform);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  @include slide-up-animation(0.1s);
+
+  &:hover {
+    background: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateX(-5px);
+  }
+
+  &:active {
+    transform: translateX(-2px);
+  }
+}
+
+.errorBanner {
+  background: $error-bg;
+  border: 1px solid $error-color;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideUp 0.4s ease-out;
+
+  p {
+    color: $error-color;
+    margin: 0;
+  }
+}
+
+.dismissButton {
+  background: $error-color;
+  color: $white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  @include transition(background, transform);
+
+  &:hover {
+    background: #c62828;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.userDetail {
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  @include slide-up-animation(0.2s);
+}
+
+.userHeader {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  border: 3px solid $border-color;
+  @include transition(transform, box-shadow);
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: $primary-blue;
+  }
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+  animation: slideUp 0.5s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: 600;
+  color: $foreground;
+  margin: 0 0 0.5rem 0;
+}
+
+.gender {
+  font-size: 1rem;
+  color: $text-secondary;
+  margin: 0 0 0.5rem 0;
+  text-transform: capitalize;
+}
+
+.location {
+  font-size: 1rem;
+  color: $text-secondary;
+  margin: 0 0 0.5rem 0;
+}
+
+.email {
+  font-size: 1rem;
+  color: $primary-blue;
+  margin: 0;
+  word-break: break-all;
+  @include transition(color);
+
+  &:hover {
+    color: $primary-blue-hover;
+  }
+}
+
+.currentWeather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  min-width: 150px;
+  animation: slideUp 0.5s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.weatherIcon {
+  font-size: 4rem;
+  line-height: 1;
+  animation: pulse 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+.currentTemp {
+  font-size: 2rem;
+  font-weight: 600;
+  color: $foreground;
+  @include transition(transform);
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.weatherDesc {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: $text-secondary;
+  font-size: 1.125rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.forecastSection {
+  margin-top: 2rem;
+  animation: fadeIn 0.6s ease-out 0.6s forwards;
+  opacity: 0;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $foreground;
+  margin: 0 0 1.5rem 0;
+}
+
+.forecastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+
+  // Stagger animation for forecast cards
+  > * {
+    @include slide-up-animation();
+    opacity: 0;
+    
+    @for $i from 1 through 7 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.7 + $i * 0.1}s;
+      }
+    }
+  }
+}
+
+.forecastCard {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  @include transition(transform, box-shadow);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-blue, $primary-blue-hover);
+    transform: scaleX(0);
+    @include transition(transform);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.forecastDate {
+  margin-bottom: 0.75rem;
+}
+
+.dayName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: $foreground;
+  margin-bottom: 0.25rem;
+}
+
+.dateStr {
+  font-size: 0.75rem;
+  color: $text-secondary;
+}
+
+.forecastIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+  @include transition(transform);
+
+  .forecastCard:hover & {
+    animation: rotate 3s linear infinite;
+  }
+}
+
+.forecastTemps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.maxTemp {
+  color: $foreground;
+  font-weight: 500;
+}
+
+.minTemp {
+  color: $text-secondary;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  background: $white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+  @include slide-up-animation();
+
+  p {
+    color: $error-color;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .userDetail {
+    padding: 1.5rem;
+  }
+
+  .userHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .name {
+    font-size: 1.5rem;
+  }
+
+  .forecastGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .currentWeather {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .forecastGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+

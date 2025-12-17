@@ -1,0 +1,113 @@
+@use './variables' as *;
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: $background;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.header {
+  margin-bottom: 2rem;
+  @include fade-in-animation(0.1s);
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: $foreground;
+    margin: 0;
+    animation: slideUp 0.5s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+}
+
+.userGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  
+  // Stagger animation for cards
+  > * {
+    @include slide-up-animation();
+    
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+  }
+}
+
+.loading,
+.loadingMore {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.125rem;
+  color: $text-secondary;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  background: $white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+  @include slide-up-animation();
+
+  p {
+    color: $error-color;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.retryButton {
+  background: $primary-blue;
+  color: $white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  @include transition(background, transform);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: $primary-blue-hover;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .userGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .userGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
