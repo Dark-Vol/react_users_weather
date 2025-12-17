@@ -24,6 +24,7 @@
       "@utils/*": ["./app/utils/*"],
       "@services/*": ["./app/services/*"],
       "@store/*": ["./app/store/*"],
+      "@types": ["./app/types/index"],
       "@types/*": ["./app/types/*"]
     }
   },
